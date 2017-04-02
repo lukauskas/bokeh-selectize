@@ -5,7 +5,8 @@ from bokeh.io import show, curdoc
 from bokeh.layouts import column
 
 div = Div(text="This is a div, selector should be below")
-selectize_select = SelectizeSelect(title='Test selectize', width=100, height=100)
+selectize_select = SelectizeSelect(title='Test selectize',
+                                   placeholder='placeholder goes here')
 
 div_classic = Div(text="Classic select below")
 classic_select = Select(title="Test classic select?")

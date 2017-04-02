@@ -1,5 +1,5 @@
 from bokeh.models import InputWidget
-
+from bokeh.properties import String
 
 class SelectizeSelect(InputWidget):
 
@@ -13,3 +13,4 @@ class SelectizeSelect(InputWidget):
         'https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/css/selectize.default.min.css',
     ]
 
+    placeholder = String

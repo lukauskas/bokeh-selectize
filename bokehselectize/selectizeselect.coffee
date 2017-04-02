@@ -16,11 +16,13 @@ export class SelectizeSelectView extends InputWidgetView
     @listenTo(@model, 'change', @render)
 
   render: () ->
-    console.log('Rendering??')
     super()
     @$el.empty()
     html = @template(@model.attributes)
     @$el.html(html)
+    @selector = '#' + @model.attributes.id
+    jQuery(@$el.find(@selector)[0]).selectize();
+
     return @
 
   change_input: () ->
@@ -34,6 +36,5 @@ export class SelectizeSelect extends InputWidget
   default_view: SelectizeSelectView
 
   @define {
-    value: [p.String, '']
-    options: [p.Any, []]
+    placeholder: [p.String, '']
   }
