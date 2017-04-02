@@ -34,6 +34,8 @@ setup(
         'test': ['nose'],
     },
     package_data={
+        'bokehselectize': ['bokehselectize/*.coffee',
+                           'bokehselectize/*.tsx']
     },
     entry_points={
     },
