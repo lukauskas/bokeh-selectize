@@ -1,6 +1,6 @@
 # bokeh-selectize
 
-This package provides a widget that integrates [`selectize.js`](https://selectize.github.io/selectize.js/) with [`bokeh`](http://bokeh.pydata.org/en/latest/).
+This package provides a widget that integrates [`selectize.js`](https://selectize.github.io/selectize.js/) with [`bokeh`](http://bokeh.pydata.org/en/latest/). This allows for creation of single- or multi-select widgets with autocompletion from `bokeh` interface.
 
 # Installation
 
