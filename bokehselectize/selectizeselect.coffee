@@ -46,10 +46,11 @@ export class SelectizeSelectView extends InputWidgetView
       render: render
     }
 
-    @_selectize = jQuery(@$el.find(@selector)[0]).selectize(selectize_options)
+    select = jQuery(@$el.find(@selector)[0]).selectize(selectize_options)
+    @_selectize = select[0].selectize;
 
     @render()
-    @listenTo(@model.value, 'change', @update_value)
+    @listenTo(@model, 'change', @update_value)
 
   get_options: () ->
     options_source = @model.options
@@ -73,8 +74,9 @@ export class SelectizeSelectView extends InputWidgetView
 
     return search_fields
 
-  update_value: () ->
-    @_selectize.items = @model.value
+  update_value: () =>
+    console.log('Updating value: '+ @model.value);
+    @_selectize.setValue(@model.value, true);
 
   _selectize_value_changed: (value) =>
     @model.value = value
