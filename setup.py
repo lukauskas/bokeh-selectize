@@ -24,7 +24,7 @@ setup(
     author_email='saulius.lukauskas13@imperial.ac.uk',
 
     # Choose your license
-    license='MIT',
+    license='BSD-3',
 
     packages=find_packages(exclude=['contrib', 'docs', 'tests']),
 
