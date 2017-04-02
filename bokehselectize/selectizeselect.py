@@ -3,6 +3,11 @@ from bokeh.core.properties import String, Instance, List, Int, Any
 
 
 class SelectizeSelect(InputWidget):
+    """
+    Selection widget implementation using selectize.js
+
+    see https://github.com/selectize/selectize.js/
+    """
 
     __implementation__ = 'selectizeselect.coffee'
     __javascript__ = [
@@ -14,14 +19,29 @@ class SelectizeSelect(InputWidget):
         'https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.4/css/selectize.default.min.css',
     ]
 
-    placeholder = String
-    options = Instance(ColumnDataSource)
+    placeholder = String(help="Placeholder string shown when no options are selected")
 
-    value_field = String
-    label_field = String
+    options = Instance(ColumnDataSource, help="Options available for selection")
 
-    search_fields = List(String)
+    value_field = String(help="Column in `options` data source that will act as a value "
+                              "(i.e. will be returned)")
+    label_field = String(help="Column in `options` data source that will act as a label "
+                              "(i.e. will be shown to the user)")
 
-    max_items = Int(default=1)
+    search_fields = List(String, help="Fields that autocomplete will search, "
+                                      "if unspecified, assumed all fields")
 
-    value = Any()
+    max_items = Int(default=1, help="Maximum number of items user is allowed to select. "
+                                    "None means 'unlimited'")
+
+    value = Any(help="Selected value")
+
+    render_item_template = String(help="Custom template for rendering selected items: "
+                                        "Values in {} will be rendered as item's attributes"
+                                        "must create an HTML object. "
+                                        "Example: '<div>{first_name} {last_name} &lt{email}&gt</div>'")
+
+    render_option_template = String(help="Custom template for rendering options. "
+                                        "Values in {} will be rendered as item's attributes"
+                                        "must create an HTML object. "
+                                        "Example: '<div>{first_name} {last_name} &lt{email}&gt</div>'")

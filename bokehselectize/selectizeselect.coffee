@@ -5,6 +5,7 @@ import * as p from "core/properties"
 import {InputWidget, InputWidgetView} from "models/widgets/input_widget"
 import template from "./selectizeselecttemplate"
 
+
 export class SelectizeSelectView extends InputWidgetView
   template: template
 
@@ -19,6 +20,21 @@ export class SelectizeSelectView extends InputWidgetView
     options = @get_options()
     search_fields = @get_search_fields()
 
+    render = {}
+    if @model.render_option_template?
+      render['option'] = (item, escape) =>
+        # based on http://stackoverflow.com/a/1408373
+        return @model.render_option_template.replace(/{([^{}]*)}/g,
+                                            (a, b) =>
+                                              return escape(item[b]))
+
+    if @model.render_item_template?
+      render['item'] = (item, escape) =>
+        # based on http://stackoverflow.com/a/1408373
+        return @model.render_item_template.replace(/{([^{}]*)}/g,
+                                            (a, b) =>
+                                              return escape(item[b]))
+
     selectize_options = {
       options: options
       searchField: search_fields
@@ -27,6 +43,7 @@ export class SelectizeSelectView extends InputWidgetView
       maxItems: @model.max_items
       onChange: @_selectize_value_changed
       items: @model.value
+      render: render
     }
 
     @_selectize = jQuery(@$el.find(@selector)[0]).selectize(selectize_options)
@@ -64,7 +81,6 @@ export class SelectizeSelectView extends InputWidgetView
 
   render: () ->
     super()
-    console.log('Rendering')
     return @
 
 export class SelectizeSelect extends InputWidget
@@ -79,4 +95,6 @@ export class SelectizeSelect extends InputWidget
     label_field: [ p.String ]
     max_items: [ p.Int, 1]
     search_fields: [p.Any]
+    render_item_template: [ p.String ]
+    render_option_template: [ p.String ]
   }
