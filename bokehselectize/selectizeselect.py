@@ -1,5 +1,6 @@
-from bokeh.models import InputWidget
-from bokeh.properties import String
+from bokeh.models import InputWidget, ColumnDataSource
+from bokeh.properties import String, Instance, List, Int
+
 
 class SelectizeSelect(InputWidget):
 
@@ -14,3 +15,11 @@ class SelectizeSelect(InputWidget):
     ]
 
     placeholder = String
+    options = Instance(ColumnDataSource)
+
+    value_field = String
+    label_field = String
+
+    search_fields = List(String)
+
+    max_items = Int(default=1)
