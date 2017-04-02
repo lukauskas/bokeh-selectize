@@ -7,13 +7,32 @@ import template from "./selectizeselecttemplate"
 
 export class SelectizeSelectView extends InputWidgetView
   template: template
-  events:
-    "change select": "change_input"
 
   initialize: (options) ->
     super(options)
+
+    @$el.empty()
+    html = @template(@model.attributes)
+    @$el.html(html)
+    @selector = '#' + @model.attributes.id
+
+    options = @get_options()
+    search_fields = @get_search_fields()
+
+    selectize_options = {
+      options: options
+      searchField: search_fields
+      valueField: @model.value_field
+      labelField: @model.label_field
+      maxItems: @model.max_items
+      onChange: @_selectize_value_changed
+      items: @model.value
+    }
+
+    @_selectize = jQuery(@$el.find(@selector)[0]).selectize(selectize_options)
+
     @render()
-    @listenTo(@model, 'change', @render)
+    @listenTo(@model.value, 'change', @update_value)
 
   get_options: () ->
     options_source = @model.options
@@ -37,43 +56,23 @@ export class SelectizeSelectView extends InputWidgetView
 
     return search_fields
 
+  update_value: () ->
+    @_selectize.items = @model.value
+
+  _selectize_value_changed: (value) =>
+    @model.value = value
 
   render: () ->
     super()
-    @$el.empty()
-    html = @template(@model.attributes)
-    @$el.html(html)
-    @selector = '#' + @model.attributes.id
-
-    options = @get_options()
-    search_fields = @get_search_fields()
-
-    console.log('max items')
-    console.log(@model.max_items)
-
-    selectize_options = {
-      options: options
-      searchField: search_fields
-      valueField: @model.value_field
-      labelField: @model.label_field,
-      maxItems: @model.max_items
-    }
-
-    jQuery(@$el.find(@selector)[0]).selectize(selectize_options);
-
+    console.log('Rendering')
     return @
-
-  change_input: () ->
-    value = @$el.find('select').val()
-    logger.debug("selectbox: value = #{value}")
-    @model.value = value
-    super()
 
 export class SelectizeSelect extends InputWidget
   type: "SelectizeSelect"
   default_view: SelectizeSelectView
 
   @define {
+    value: [p.Any]
     placeholder: [p.String, '']
     options: [ p.Instance ]
     value_field: [ p.String ]

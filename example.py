@@ -18,8 +18,14 @@ selectize_select = SelectizeSelect(title='Test selectize',
                                    options=options,
                                    label_field='email',
                                    value_field='email',
-                                   max_items=None
+                                   max_items=None,
+                                   value=['foo@bar.com', 'third@email.com']
                                    )
+
+def callback(attr, old, new):
+    print(attr, old, new, selectize_select.value)
+
+selectize_select.on_change('value', callback)
 
 
 
