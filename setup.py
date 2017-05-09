@@ -37,6 +37,7 @@ setup(
         'bokehselectize': ['bokehselectize/*.coffee',
                            'bokehselectize/*.tsx']
     },
+    include_package_data=True,
     entry_points={
     },
 )
