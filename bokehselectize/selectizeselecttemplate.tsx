@@ -1,4 +1,4 @@
-import * as DOM from "core/util/dom";
+import * as DOM from "core/dom";
 import {isString} from "core/util/types";
 
 export interface SelectProps {
