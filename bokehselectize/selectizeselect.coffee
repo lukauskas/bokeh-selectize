@@ -50,8 +50,7 @@ export class SelectizeSelectView extends InputWidgetView
     @_selectize = select[0].selectize;
 
     @render()
-    #@listenTo(@model, 'change', @update_value)
-    @connect(@model.properties.attr.change, @updateValue)
+    @connect(@model.change, @updateValue)
 
   get_options: () ->
     options_source = @model.options
