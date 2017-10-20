@@ -1,20 +1,18 @@
 import {logger} from "core/logging"
-import * as $ from "jquery"
 import * as p from "core/properties"
 
 import {InputWidget, InputWidgetView} from "models/widgets/input_widget"
-import template from "./selectizeselecttemplate"
+import {empty, label, select, div} from "core/dom"
 
 
 export class SelectizeSelectView extends InputWidgetView
-  template: template
 
   initialize: (options) ->
     super(options)
 
-    @$el.empty()
+    empty(@el)
     html = @template(@model.attributes)
-    @$el.html(html)
+    @el.appendChild(html)
     @selector = '#' + @model.attributes.id
 
     options = @get_options()
@@ -46,9 +44,10 @@ export class SelectizeSelectView extends InputWidgetView
       render: render
     }
 
-    select = jQuery(@$el.find(@selector)[0]).selectize(selectize_options)
+    # I am not entirely sure why I need to wrap in jQuery twice.
+    # but hey, it works
+    select = jQuery(jQuery(@el).find(@selector)[0]).selectize(selectize_options)
     @_selectize = select[0].selectize;
-
     @render()
     @connect(@model.change, @update_value)
 
@@ -84,6 +83,16 @@ export class SelectizeSelectView extends InputWidgetView
   render: () ->
     super()
     return @
+
+
+  template: () ->
+    return (div({class: ""},
+      label({for: @model.id},
+            @model.title,
+            ),
+            select({class: "", id: @model.id, name: @model.name, placeholder: @model.placeholder})
+    ))
+
 
 export class SelectizeSelect extends InputWidget
   type: "SelectizeSelect"
