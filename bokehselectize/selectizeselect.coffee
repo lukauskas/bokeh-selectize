@@ -33,6 +33,10 @@ export class SelectizeSelectView extends InputWidgetView
                                             (a, b) =>
                                               return escape(item[b]))
 
+    # Since coffeescript 2 this has to be created in constructor
+    @_selectize_value_changed = (value) =>
+       @model.value = value
+
     selectize_options = {
       options: options
       searchField: search_fields
@@ -50,6 +54,8 @@ export class SelectizeSelectView extends InputWidgetView
     @_selectize = select[0].selectize;
     @render()
     @connect(@model.change, @update_value)
+
+
 
   get_options: () ->
     options_source = @model.options
@@ -77,8 +83,6 @@ export class SelectizeSelectView extends InputWidgetView
     console.log('Updating value: '+ @model.value);
     @_selectize.setValue(@model.value, true);
 
-  _selectize_value_changed: (value) =>
-    @model.value = value
 
   render: () ->
     super()
