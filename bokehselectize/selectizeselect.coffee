@@ -19,7 +19,16 @@ export class SelectizeSelectView extends InputWidgetView
       options = @get_options_from_json()
     else
       options = @get_options()
+      @_finalise_initialisation(options)
 
+    @connect(@model.change, @update_value)
+
+    if !@model.options_external_json
+      @connect(@model.options.change, () =>
+        @update_options();
+      )
+
+  _finalise_initialisation: (options) ->
     search_fields = @get_search_fields()
 
     render = {}
@@ -52,20 +61,11 @@ export class SelectizeSelectView extends InputWidgetView
       render: render
     }
 
-
-
     # I am not entirely sure why I need to wrap in jQuery twice.
     # but hey, it works
     select = jQuery(jQuery(@el).find(@selector)[0]).selectize(selectize_options)
     @_selectize = select[0].selectize;
     @render()
-    @connect(@model.change, @update_value)
-
-    if !@model.options_external_json
-      @connect(@model.options.change, () =>
-        @update_options();
-      )
-
 
   get_options: () ->
     options_source = @model.options
@@ -85,19 +85,14 @@ export class SelectizeSelectView extends InputWidgetView
     url = @model.options_external_json
     console.log("Populating selectize select from #{url}")
 
-    dataset = null
-
     $.ajax url,
       type: 'GET'
       dataType: 'json'
-      async: false
       error: (jqXHR, textStatus, errorThrown) ->
         console.log "Error fetching data from #{url}: #{textStatus}"
-      success: (data, textStatus, jqXHR) ->
+      success: (data, textStatus, jqXHR) =>
         console.log "Successfully fetched data from #{url}"
-        dataset = data
-
-    return dataset
+        @_finalise_initialisation(data)
 
   update_options: () ->
     options = @get_options()

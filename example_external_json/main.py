@@ -13,6 +13,9 @@ selectize_select = SelectizeSelect(title='Select a few emails',
                                    options=ColumnDataSource(data=dict()),
                                    # If anyone knows a way to get prefix automatically, let me know
                                    options_external_json="/example_external_json/static/data.json",
+                                   # If you do not have columns in options data source,
+                                   # specify search fields
+                                   search_fields=['email', 'first_name', 'last_name'],
                                    label_field='email',
                                    value_field='email',
                                    max_items=None,
