@@ -55,6 +55,10 @@ export class SelectizeSelectView extends InputWidgetView
     @render()
     @connect(@model.change, @update_value)
 
+    @connect(@model.options.change, () =>
+      @update_options();
+    )
+
 
 
   get_options: () ->
@@ -70,6 +74,12 @@ export class SelectizeSelectView extends InputWidgetView
       options.push(d)
 
     return options
+
+  update_options: () ->
+    options = @get_options()
+    @_selectize.clearOptions()
+    @_selectize.addOption(options)
+
 
   get_search_fields: () ->
     search_fields = @model.search_fields
