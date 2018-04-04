@@ -22,6 +22,11 @@ class SelectizeSelect(InputWidget):
     placeholder = String(help="Placeholder string shown when no options are selected")
 
     options = Instance(ColumnDataSource, help="Options available for selection")
+    options_external_json = String(default="",
+                                   help="Alternatively, URL to load options from (JSON file). "
+                                        "This is usually faster than loading through websocket. "
+                                        "Options ColumnDataSource will then be ignored and "
+                                        "Data will not synchronise with python layer.")
 
     value_field = String(help="Column in `options` data source that will act as a value "
                               "(i.e. will be returned)")
