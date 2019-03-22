@@ -9,7 +9,7 @@ class SelectizeSelect(InputWidget):
     see https://github.com/selectize/selectize.js/
     """
 
-    __implementation__ = 'selectizeselect.coffee'
+    __implementation__ = 'selectizeselect.ts'
     __javascript__ = [
         'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js',
         'https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js',
@@ -50,3 +50,6 @@ class SelectizeSelect(InputWidget):
                                         "Values in {} will be rendered as item's attributes"
                                         "must create an HTML object. "
                                         "Example: '<div>{first_name} {last_name} &lt{email}&gt</div>'")
+
+    input_max_height = String(default=None, help="Maximum height of the input box")
+    input_max_width = String(default=None, help="Maximum width of the input box")
