@@ -34,7 +34,7 @@ setup(
         'test': ['nose'],
     },
     package_data={
-        'bokehselectize': ['bokehselectize/*.coffee',
+        'bokehselectize': ['bokehselectize/*.ts',
                            'bokehselectize/*.tsx']
     },
     include_package_data=True,
