@@ -41,33 +41,44 @@ export class SelectizeSelectView extends InputWidgetView {
     }
 
     render(): void {
-        super.render()
+
+        super.render();
 
         // Create what we need
-        this._select_element = select({class: "", id: this.model.id,
-            name: this.model.name, placeholder: this.model.placeholder});
-        this._element = (div({class: ""},
+        console.log('create select?')
+        this._select_element = select({class: "selectize-select", id: this.model.id,
+            name: this.model.name,
+            placeholder: this.model.placeholder});
+
+        console.log('Create element?')
+        this._element = (div({class: "selectize-select-label-div"},
             label({for: this.model.id},
                 this.model.title
             ),
             this._select_element
         ));
-
+        console.log('Empty?');
         // Render it
         empty(this.el);
+        console.log('Append child');
         this.el.appendChild(this._element);
-
+        console.log('get options');
         let options = this.get_options();
+        console.log('Init options');
         options = this._selectize_init_options(options);
 
+        console.log('Jquery select');
         const jquery_select = jQuery(this._select_element).selectize(options);
         this._selectize = jquery_select[0].selectize;
 
+        console.log('Initialise select?');
         const input: HTMLElement = <HTMLElement>(this.el.getElementsByClassName('selectize-input')[0]);
 
+        console.log('Height?');
         if (this.model.input_max_height !== null) input.style.maxHeight = this.model.input_max_height;
         if (this.model.input_max_width !== null) input.style.maxWidth = this.model.input_max_width;
 
+        console.log('Last?')
         input.style.overflow = 'auto';
     }
 
